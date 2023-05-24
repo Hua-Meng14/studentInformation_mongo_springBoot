@@ -1,9 +1,10 @@
 package com.example.studentinformationsystem.serivce;
 
 import com.example.studentinformationsystem.model.StudentModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 public interface StudentService {
     List<StudentModel> findAllStudent();
 

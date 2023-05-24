@@ -16,8 +16,10 @@ public class StudentModel {
     private List<String> courseList;
     private float gpa;
 
-
-    public void Student(String name, long studentNumber, String email, List<String> courseList, float gpa) {
+//    public Student() {
+//
+//    }
+    public StudentModel(String name, long studentNumber, String email, List<String> courseList, float gpa) {
         this.name = name;
         this.courseList = courseList;
         this.email = email;

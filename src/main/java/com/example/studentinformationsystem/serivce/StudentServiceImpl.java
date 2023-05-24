@@ -20,7 +20,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentModel findByStudentNumber(long studentNumber) {
-        return studentRepository.findStudentByNumber(studentNumber);
+        return studentRepository.findStudentByStudentNumber(studentNumber);
     }
 
     @Override
