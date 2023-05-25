@@ -1,5 +1,6 @@
 package com.example.studentinformationsystem.serivce;
 
+import com.example.studentinformationsystem.exception.DuplicateStudentNumberException;
 import com.example.studentinformationsystem.model.StudentModel;
 import com.example.studentinformationsystem.respository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class StudentServiceImpl {
     }
 
     //    @Override
-    public StudentModel findByStudentNumber(long studentNumber) {
+    public StudentModel findByStudentNumber(String studentNumber) {
         try {
             Optional<StudentModel> optionalStudent = Optional.ofNullable(studentRepository.findStudentByStudentNumber(studentNumber));
             if (optionalStudent.isPresent()) {
@@ -74,7 +75,18 @@ public class StudentServiceImpl {
 
     //    @Override
     public StudentModel saveOrUpdateStudent(StudentModel student) {
-        return studentRepository.save(student);
+        try {
+            String studentNumber = student.getStudentNumber();
+            // Check if a student with the same student number already exists
+            StudentModel existingStudent = studentRepository.findStudentByStudentNumber(studentNumber);
+            if (existingStudent != null) {
+                throw new DuplicateStudentNumberException("Student with student number " + studentNumber + " already exists.");
+            } else {
+                return studentRepository.save(student);
+            }
+        }catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error occurred while creating new student. "+ e);
+        }
     }
 
     //    @Override

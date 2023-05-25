@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class StudentRestController {
 
     @Autowired
@@ -21,7 +22,7 @@ public class StudentRestController {
     }
 
     @GetMapping(value = "/students/{studentNumber}")
-    public StudentModel getStudentByStudentNumber(@PathVariable("studentNumber") Long studentNumber) {
+    public StudentModel getStudentByStudentNumber(@PathVariable("studentNumber") String studentNumber) {
         return studentService.findByStudentNumber(studentNumber);
     }
 
@@ -30,19 +31,19 @@ public class StudentRestController {
         return studentService.findByEmail(email);
     }
 
-    @GetMapping(value = "/students/order-by-gpa")
+    @GetMapping(value = "/students/gpa")
     public List<StudentModel> findAllByOrderByGpaDesc() {
         return studentService.findAllByOrderByGpaDesc();
     }
 
-    @PostMapping(value = "/students/save")
+    @PostMapping(value = "/students")
     public ResponseEntity<?> saveOrUpdateStudent(@RequestBody StudentModel studentModel) {
         studentService.saveOrUpdateStudent(studentModel);
         return new ResponseEntity("Student added successfully", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/students/{studentNumber}")
-    public ResponseEntity<?> deleteStudentByStudentNumber(@PathVariable long studentNumber) {
+    public ResponseEntity<?> deleteStudentByStudentNumber(@PathVariable String studentNumber) {
         studentService.deleteStudentById(studentService.findByStudentNumber(studentNumber).getId());
         return new ResponseEntity("Student deleted successfully", HttpStatus.OK);
     }
